@@ -47,7 +47,16 @@ Edit `.env` and set secure values (especially `JWT_SECRET`, `ADMIN_PASSWORD`).
 
 ## Coolify Deployment
 
-For Coolify, do not rely on repository defaults. Configure the environment variables in Coolify and let the platform inject them at runtime.
+Use Docker Compose deployment in Coolify. Do not upload or rely on a `.env` file from the repo. Set the variables in Coolify and let Coolify inject them at runtime.
+
+Exact setup:
+
+1. Create a new Coolify application from this Git repository.
+2. Choose the `docker-compose.yml` deployment option.
+3. Set the public domain to `research.deadcats.space`.
+4. Expose the `app` service on port `8000`.
+5. Keep the `db` service internal unless you are replacing it with a managed PostgreSQL service.
+6. Add the environment variables below in Coolify before the first deploy.
 
 Recommended values for your current public host:
 
@@ -94,6 +103,9 @@ Notes:
 - `PWNBOX_ALLOWED_ORIGINS` should include the same public host used for the portal.
 - `DATABASE_URL` must point to the hostname visible from the app container.
 - `COOKIE_SECURE=true` should stay enabled on HTTPS deployments.
+- If you keep the Compose `db` service, use `db` as the hostname inside `DATABASE_URL`.
+- If you use a separate managed PostgreSQL instance, replace `DATABASE_URL` with that connection string and remove or disable the local `db` service in Coolify.
+- After deploy, the app should be available at `https://research.deadcats.space/login.html`.
 
 ### 3) Start everything
 
